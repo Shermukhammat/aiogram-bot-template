@@ -1,18 +1,23 @@
-from typing import Any, Awaitable, Callable, Dict, Set
+from typing import Any, Awaitable, Callable, Dict
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
 from db import DataBase
-import inspect
-
-
-# Cache which handlers actually need a session so we only call
-# inspect.signature() once per unique handler, not on every update.
-_handlers_needing_session: Set[int] = set()
-_handlers_checked: Set[int] = set()
 
 
 class DbSessionMiddleware(BaseMiddleware):
-    def __init__(self, db: DataBase):
+    """
+    Opens an AsyncSession for every update and injects it as data["session"].
+
+    The session is always created (no lazy inspection) because at the
+    dp.update middleware level data["handler"].callback is aiogram's internal
+    routing handler — not the user-defined handler — so signature inspection
+    cannot reliably detect whether the eventual handler needs a session.
+
+    The session is kept open for the entire handler call and closed (connection
+    returned to the asyncpg pool) once the handler returns, even on error.
+    """
+
+    def __init__(self, db: DataBase) -> None:
         self.db = db
 
     async def __call__(
@@ -21,19 +26,6 @@ class DbSessionMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: Dict[str, Any],
     ) -> Any:
-        callback = data["handler"].callback
-        cb_id = id(callback)
-
-        if cb_id not in _handlers_checked:
-            _handlers_checked.add(cb_id)
-            if "session" in inspect.signature(callback).parameters:
-                _handlers_needing_session.add(cb_id)
-
-        if cb_id in _handlers_needing_session:
-            # `async with` guarantees the session is closed and the
-            # connection is returned to the asyncpg pool — even on error.
-            async with self.db.session_maker() as session:
-                data["session"] = session
-                return await handler(event, data)
-
-        return await handler(event, data)
+        async with self.db.session_maker() as session:
+            data["session"] = session
+            return await handler(event, data)
