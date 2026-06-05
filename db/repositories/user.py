@@ -30,3 +30,9 @@ class UserRepository:
         session.add(user)
         await session.commit()
         return user
+
+    async def delete(self, session: AsyncSession, id: int) -> None:
+        user = await self.get(session, id)
+        if user:
+            await session.delete(user)
+            await session.commit()

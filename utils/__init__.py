@@ -1,0 +1,1 @@
+from .command import set_admin_commands
