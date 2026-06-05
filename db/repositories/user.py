@@ -36,3 +36,8 @@ class UserRepository:
         if user:
             await session.delete(user)
             await session.commit()
+
+    async def update(self, session: AsyncSession, user: User) -> User:
+        session.add(user)
+        await session.commit()
+        return user

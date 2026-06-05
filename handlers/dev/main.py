@@ -26,7 +26,13 @@ async def debug_handler(update: types.Message):
 
 
 @r.message(Command('make_me_admin'), F.from_user.id == config.DEV_ID)
-async def make_me_admin_handler(update: types.Message, bot: Bot):
+async def make_me_admin_handler(update: types.Message, bot: Bot, session, user: User):
+    if user.is_admin:
+        await update.answer("You are already an admin!")
+        return
+    
+    user.is_admin = True
+    await db.users.update(session, user)
     await set_admin_commands(update.from_user.id, bot)
     await update.answer("You are now an admin!")
 

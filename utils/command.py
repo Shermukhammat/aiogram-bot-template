@@ -13,6 +13,6 @@ async def set_admin_commands(user_id: int, bot: Bot):
 
 USER_COMMANDS = []
 
-async def set_admin_commands(user_id: int, bot: Bot):
+async def set_user_commands(user_id: int, bot: Bot):
     if USER_COMMANDS:
         await bot.set_my_commands(USER_COMMANDS,  scope=BotCommandScopeChat(chat_id=user_id))

@@ -1,1 +1,1 @@
-from .command import set_admin_commands
+from .command import set_admin_commands, set_user_commands
