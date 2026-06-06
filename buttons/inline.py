@@ -83,5 +83,13 @@ class InlineKeyboards:
             ]
         ])
 
+    @staticmethod
+    def subscribe_channels(channels: list) -> InlineKeyboardMarkup:
+        keyboard = []
+        for ch in channels:
+            keyboard.append([InlineKeyboardButton(text=ch.title, url=ch.url)])
+        keyboard.append([InlineKeyboardButton(text="✅ Tekshirish", callback_data="check_sub")])
+        return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
 
 InlineButtons = InlineKeyboards
