@@ -6,6 +6,11 @@ class AdminPanel(StatesGroup):
     settings = State()
     adding_admin = State()
     removing_admin = State()
+    add_channel = State()
+    channel_config = State()
+    edit_channel_title = State()
+    edit_channel_url = State()
+    remove_channel = State()
     
 
 class AdsSending(StatesGroup):

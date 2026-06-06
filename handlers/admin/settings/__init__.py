@@ -1,1 +1,3 @@
-from . import main, admins
+from . import main
+from . import admins
+from . import channels

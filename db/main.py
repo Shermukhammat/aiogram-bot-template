@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
-from .repositories import UserRepository
+from .repositories import UserRepository, ChannelRepository
 
 
 class DataBase:
@@ -8,3 +8,4 @@ class DataBase:
         self.session_maker = async_sessionmaker(self.engine, expire_on_commit=False)
 
         self.users = UserRepository()
+        self.channels = ChannelRepository()

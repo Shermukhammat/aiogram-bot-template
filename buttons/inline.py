@@ -57,5 +57,31 @@ class InlineKeyboards:
             ]
         ])
 
+    @staticmethod
+    def channels_panel() -> InlineKeyboardMarkup:
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="➕ Qo'shish", callback_data="channel_add"),
+                InlineKeyboardButton(text="➖ O'chirish", callback_data="channel_remove")
+            ]
+        ])
+
+    @staticmethod
+    def channel_config(request_join: bool) -> InlineKeyboardMarkup:
+        zayavka_text = "✅ Zayavka" if request_join else "❌ Zayavka"
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="✏️ Nomi", callback_data="config_title"),
+                InlineKeyboardButton(text="✏️ Havola", callback_data="config_url")
+            ],
+            [
+                InlineKeyboardButton(text=zayavka_text, callback_data="config_zayavka")
+            ],
+            [
+                InlineKeyboardButton(text="✅ Tayyor", callback_data="config_done"),
+                InlineKeyboardButton(text="❌ Bekor qilish", callback_data="config_cancel")
+            ]
+        ])
+
 
 InlineButtons = InlineKeyboards
