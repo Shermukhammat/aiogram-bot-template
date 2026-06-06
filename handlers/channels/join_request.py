@@ -15,8 +15,8 @@ async def approve_request_later(chat_id: int, user_id: int):
 @r.chat_join_request()
 async def chat_join_request_handler(event: ChatJoinRequest):
     # Immediately mark the user as joined in the cache so they can use the bot
-    cache_key = f"sub_all_{event.from_user.id}"
-    await sub_cache.set(cache_key, True, ttl=60)
+    cache_key = f"sub_{event.from_user.id}_{event.chat.id}"
+    await sub_cache.set(cache_key, True)
     
     # Auto-approve the request in the background
     asyncio.create_task(approve_request_later(event.chat.id, event.from_user.id))

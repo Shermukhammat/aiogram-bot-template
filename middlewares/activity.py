@@ -6,8 +6,8 @@ from aiocache import Cache
 
 from loader import db
 
-_cache = Cache(Cache.MEMORY)
 TTL = 60  # seconds
+_cache = Cache(Cache.MEMORY, ttl=TTL)
 
 
 class ActivityMiddleware(BaseMiddleware):
@@ -27,6 +27,6 @@ class ActivityMiddleware(BaseMiddleware):
             if session:
                 await db.users.update_last_used(session, tg_user.id)
 
-            await _cache.set(tg_user.id, True, ttl=TTL)
+            await _cache.set(tg_user.id, True)
 
         return await handler(event, data)

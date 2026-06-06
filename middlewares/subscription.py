@@ -9,7 +9,7 @@ from db import DataBase
 from loader import bot
 from buttons import InlineButtons
 
-sub_cache = Cache(Cache.MEMORY)
+sub_cache = Cache(Cache.MEMORY, ttl=60)
 
 class CheckSubscriptionMiddleware(BaseMiddleware):
     def __init__(self, db: DataBase) -> None:
@@ -38,6 +38,11 @@ class CheckSubscriptionMiddleware(BaseMiddleware):
         not_joined_channels = []
 
         for channel in channels:
+            cache_key = f"sub_{tg_user.id}_{channel.id}"
+            is_subbed = await sub_cache.get(cache_key)
+            if is_subbed:
+                continue
+
             try:
                 member = await bot.get_chat_member(chat_id=channel.id, user_id=tg_user.id)
                 if member.status in ['left', 'kicked', 'banned']:
@@ -48,7 +53,7 @@ class CheckSubscriptionMiddleware(BaseMiddleware):
                 not_joined_channels.append(channel)
 
         if not not_joined_channels:
-            await sub_cache.set(tg_user.id, True, ttl=60)
+            await sub_cache.set(tg_user.id, True)
             return await handler(event, data)
 
         if isinstance(event, CallbackQuery) and event.data == "check_sub":
