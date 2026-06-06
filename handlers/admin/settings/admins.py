@@ -16,7 +16,11 @@ def _admins_text(admins: list[User]) -> str:
     lines = ["👨🏻‍💻 <b>Adminlar ro'yxati:</b>\n"]
     for a in admins:
         full_name = a.first_name + (f" {a.last_name}" if a.last_name else "")
-        lines.append(f"• <code>{a.id}</code> - {full_name}")
+        if a.username:
+            username = a.username.lstrip('@')
+            lines.append(f"• <code>{a.id}</code> - <a href='https://t.me/{username}'>{full_name}</a>")
+        else:
+            lines.append(f"• <code>{a.id}</code> - {full_name}")
     return "\n".join(lines)
 
 
