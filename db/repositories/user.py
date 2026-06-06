@@ -2,6 +2,8 @@ from db.models.user import User
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Sequence
+from datetime import datetime
+from sqlalchemy import update
 
 
 class UserRepository:
@@ -45,3 +47,7 @@ class UserRepository:
         session.add(user)
         await session.commit()
         return user
+
+    async def update_last_used(self, session: AsyncSession, id: int) -> None:
+        await session.execute(update(User).where(User.id == id).values(last_used_at=datetime.now()))
+        await session.commit()
