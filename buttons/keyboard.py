@@ -47,3 +47,11 @@ class Keyboards:
             [KeyboardButton(text="🚀 Yuborish")],
             [KeyboardButton(text="⬅️ Orqaga"), KeyboardButton(text="❌ Bekor qilish")],
         ], resize_keyboard=True)
+
+    @staticmethod
+    def request_user():
+        from aiogram.types import KeyboardButtonRequestUsers
+        return ReplyKeyboardMarkup(keyboard=[
+            [KeyboardButton(text="👤 Foydalanuvchini tanlash", request_users=KeyboardButtonRequestUsers(request_id=3, user_is_bot=False))],
+            [KeyboardButton(text="❌ Bekor qilish")]
+        ], resize_keyboard=True)

@@ -13,6 +13,10 @@ class UserRepository:
         result = await session.execute(select(User))
         return result.scalars().all()
 
+    async def get_admins(self, session: AsyncSession) -> Sequence[User]:
+        result = await session.execute(select(User).where(User.is_admin == True))
+        return result.scalars().all()
+
     async def create(
         self,
         session: AsyncSession,

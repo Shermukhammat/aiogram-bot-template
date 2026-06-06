@@ -1,2 +1,2 @@
-from .inline import InlineKeyboards
+from .inline import InlineKeyboards, InlineButtons
 from .keyboard import Keyboards

@@ -47,3 +47,15 @@ class InlineKeyboards:
         for text, val in colors:
             keyboard.append([InlineKeyboardButton(text=text, callback_data=f"color:{val}", style=val)])
         return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+    @staticmethod
+    def admins_panel() -> InlineKeyboardMarkup:
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [
+                InlineKeyboardButton(text="➕ Qo'shish", callback_data="admin_add"),
+                InlineKeyboardButton(text="➖ O'chirish", callback_data="admin_remove")
+            ]
+        ])
+
+
+InlineButtons = InlineKeyboards

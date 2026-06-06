@@ -3,6 +3,9 @@ from aiogram.fsm.state import State, StatesGroup
 
 class AdminPanel(StatesGroup):
     main = State()
+    settings = State()
+    adding_admin = State()
+    removing_admin = State()
     
 
 class AdsSending(StatesGroup):
