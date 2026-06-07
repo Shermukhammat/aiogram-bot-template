@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
-from .repositories import UserRepository, ChannelRepository
+from .repositories import UserRepository, ChannelRepository, StatRepository
 from aiogram import types
 
 class DataBase:
@@ -10,3 +10,4 @@ class DataBase:
         
         self.users = UserRepository()
         self.channels = ChannelRepository()
+        self.stats = StatRepository()
