@@ -14,12 +14,14 @@ async def show_statistics(message: types.Message, session, user: User):
     
     text = (
         f"📊 <b> {db.bot.full_name} statistikasi</b>\n\n"
-        f"👥 <b>Umumiy foydalanuvchilar:</b> {stats.total_users}\n"
+        f"👥 <b>Foydalanuvchilar:</b> {stats.total_users}\n"
+        f"  ├ Faol: {stats.active_users}\n"
+        f"  └ Nofaol: {stats.inactive_users}\n"
         f"📈 <b>Yangi foydalanuvchilar:</b>\n"
         f"  ├ Bugun: {stats.new_today}\n"
         f"  ├ Shu hafta: {stats.new_this_week}\n"
         f"  └ Shu oy: {stats.new_this_month}\n"
-        f"🔥 <b>Faol foydalanuvchilar:</b>\n"
+        f"🔥 <b>Faollik:</b>\n"
         f"  ├ Bugun: {stats.active_today}\n"
         f"  ├ Shu hafta: {stats.active_this_week}\n"
         f"  └ Shu oy: {stats.active_this_month}"
